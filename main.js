@@ -118,9 +118,11 @@ const nav = document.querySelector("#nav");
 nav.innerHTML = `<div class="topnav">
     <a class="active" href="index.html">Home</a>
     <a href="ny.html">New York</a>
+    <a href="manufacturing.html">Manufacturing</a>
+    <a href="agents.html">Purchasing Agents</a>
   </div>`;
-
 // end functions
+
 // start methods
 // forEach() method
 const home = () => {
@@ -139,6 +141,35 @@ const home = () => {
         </section>
       `;
       outEl.innerHTML += "<hr/>";
+    });
+
+
+    // find()
+    document
+      .querySelector("#companySearch")
+      .addEventListener("keypress", keyPressEvent => {
+          if (keyPressEvent.charCode === 13) {
+              /* WHEN  USER PRESSES ENTER, FIND MATCHING BUSINESS */
+              const foundBusiness = businesses.find(
+                  business =>
+                      business.companyName.includes(keyPressEvent.target.value)
+              );
+
+              outEl.innerHTML = `
+                  <h2>
+                  ${foundBusiness.companyName}
+                  </h2>
+                  <section>
+                  ${foundBusiness.addressFullStreet}
+
+                  </section>
+                  <section>
+                  ${foundBusiness.addressCity},
+                  ${foundBusiness.addressStateCode}
+                  ${foundBusiness.addressZipCode}
+                  </section>
+              `;
+          }
     });
   }
 };
@@ -172,10 +203,63 @@ const ny = () => {
         `;
         outEl.innerHTML += "<hr/>";
       });
-
-    
   };
 };
+
+// Array to contain all manufacturing businesses
+const manufacturing = () => {
+  if (document.title == 'Manufacturing') {
+    const manufacturingBusinesses = businesses.filter((business) => {
+      let manuBiz = false;
+      if (business.companyIndustry === "Manufacturing") {
+        manuBiz = true;
+      }
+      return manuBiz;
+    });
+
+    const outEl = document.querySelector("#manufacturing");
+      outEl.innerHTML = "<h1>Manufacturing Businesses</h1>";
+      manufacturingBusinesses.forEach((business) => {
+        outEl.innerHTML += `
+          <h2>${business.companyName}</h2>
+          <section>
+            ${business.addressFullStreet}
+          </section>
+          <section>
+            ${business.addressCity}, ${business["addressStateCode"]} ${business["addressZipCode"]}
+          </section>
+        `;
+        outEl.innerHTML += "<hr/>";
+      });
+  };
+};
+
+// purchasing agents
+const agents = () => {
+  if (document.title == 'Purchasing Agents') {
+    const outEl = document.querySelector("#agents");
+    outEl.innerHTML += "<h1>Purchasing Agents</h1>";
+
+    /*
+        Using map(), you extract the purchasing agent object
+        from each business and store it in a new array
+    */
+    const agents = businesses.map(business => {
+        return business.purchasingAgent
+    });
+
+    console.table(agents);
+
+    agents.forEach(agent => {
+      outEl.innerHTML += `<h2>${agent.nameFirst} ${agent.nameLast}</h2>`;
+      outEl.innerHTML += "<hr/>";
+    });
+  };
+};
+
+
+
+
 // end methods
 
 // create init
@@ -183,6 +267,8 @@ const init = () => {
   nav;
   home();
   ny();
+  manufacturing();
+  agents();
 };
 
 init();
