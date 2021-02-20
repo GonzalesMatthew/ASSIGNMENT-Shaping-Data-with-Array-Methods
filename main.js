@@ -121,6 +121,7 @@ nav.innerHTML = `<div class="topnav">
     <a href="manufacturing.html">Manufacturing</a>
     <a href="agents.html">Purchasing Agents</a>
     <a href="bigSpenders.html">Big Spenders</a>
+    <a href="planets.html">Planets</a>
   </div>`;
 // end functions
 
@@ -288,6 +289,84 @@ const spenders = () => {
   }
 };
 
+// practice: planets
+const planets = () => {
+  if (document.title == "Planets") {
+    const planets = [
+      "mercury",
+      "venus",
+      "earth",
+      "mars",
+      "jupiter",
+      "saturn",
+      "uranus",
+      "neptune",
+    ];
+
+    /*
+        Use the forEach method to add the name of each planet
+        to a section element in your HTML with an id of "planets".
+        Use string templates to construct the DOM elements.
+    */
+    const planetEl = document.getElementById("planets");
+
+    planetEl.innerHTML = "<h1>Planets</h1>";
+
+    //   planets.forEach((planet) => {
+    //     planetEl.innerHTML += `
+    //         <h2>${planet}</h2>
+    //       `;
+    //       planetEl.innerHTML += "<hr/>";
+    //   });
+    // };
+
+    /*
+        Use the map method to create a new array where the
+        first letter of each planet is capitalized. Use the
+        `toUpperCase()` method on strings.
+
+        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase
+    */
+
+    //     const capPlanet = planets.map(planet => {
+    //       return planet.charAt(0).toUpperCase() + planet.slice(1);
+    //     });
+
+    //    capPlanet.forEach((planet) => {
+    //     planetEl.innerHTML += `
+    //         <h2>${planet}</h2>
+    //       `;
+    //       planetEl.innerHTML += "<hr/>";
+    //   });
+    // };
+
+    /*
+        Use the filter method to create a new array that
+        contains planets with the letter 'e'. Use the `includes()`
+        method on strings.
+
+        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes
+    */
+
+    const ePlanets = planets.filter(planet => {
+      let containsE = false;
+
+      if (planet.includes("e")) {
+        containsE = true;
+      };
+
+      return containsE;
+    });
+    
+
+    ePlanets.forEach((planet) => {
+      planetEl.innerHTML += `
+      <h2>${planet}</h2>
+    `;
+      planetEl.innerHTML += "<hr/>";
+    });
+  };
+};
 // end methods
 
 // create init
@@ -298,6 +377,7 @@ const init = () => {
   manufacturing();
   agents();
   spenders();
+  planets();
 };
 
 init();
