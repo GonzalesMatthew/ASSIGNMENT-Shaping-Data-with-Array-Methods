@@ -120,6 +120,7 @@ nav.innerHTML = `<div class="topnav">
     <a href="ny.html">New York</a>
     <a href="manufacturing.html">Manufacturing</a>
     <a href="agents.html">Purchasing Agents</a>
+    <a href="bigSpenders.html">Big Spenders</a>
   </div>`;
 // end functions
 
@@ -143,19 +144,17 @@ const home = () => {
       outEl.innerHTML += "<hr/>";
     });
 
-
     // find()
     document
       .querySelector("#companySearch")
-      .addEventListener("keypress", keyPressEvent => {
-          if (keyPressEvent.charCode === 13) {
-              /* WHEN  USER PRESSES ENTER, FIND MATCHING BUSINESS */
-              const foundBusiness = businesses.find(
-                  business =>
-                      business.companyName.includes(keyPressEvent.target.value)
-              );
+      .addEventListener("keypress", (keyPressEvent) => {
+        if (keyPressEvent.charCode === 13) {
+          /* WHEN  USER PRESSES ENTER, FIND MATCHING BUSINESS */
+          const foundBusiness = businesses.find((business) =>
+            business.companyName.includes(keyPressEvent.target.value)
+          );
 
-              outEl.innerHTML = `
+          outEl.innerHTML = `
                   <h2>
                   ${foundBusiness.companyName}
                   </h2>
@@ -169,15 +168,15 @@ const home = () => {
                   ${foundBusiness.addressZipCode}
                   </section>
               `;
-          }
-    });
+        }
+      });
   }
 };
 
 // filter() method
 // Array to contain all the New York businesses
 const ny = () => {
-  if (document.title == 'New York') {
+  if (document.title == "New York") {
     const newYorkBusinesses = businesses.filter((business) => {
       let inNewYork = false;
 
@@ -189,10 +188,10 @@ const ny = () => {
     });
 
     const outEl = document.querySelector("#ny");
-      outEl.innerHTML = "<h1>New York Businesses</h1>";
+    outEl.innerHTML = "<h1>New York Businesses</h1>";
 
-      newYorkBusinesses.forEach((business) => {
-        outEl.innerHTML += `
+    newYorkBusinesses.forEach((business) => {
+      outEl.innerHTML += `
           <h2>${business.companyName}</h2>
           <section>
             ${business.addressFullStreet}
@@ -201,14 +200,14 @@ const ny = () => {
             ${business.addressCity}, ${business["addressStateCode"]} ${business["addressZipCode"]}
           </section>
         `;
-        outEl.innerHTML += "<hr/>";
-      });
-  };
+      outEl.innerHTML += "<hr/>";
+    });
+  }
 };
 
 // Array to contain all manufacturing businesses
 const manufacturing = () => {
-  if (document.title == 'Manufacturing') {
+  if (document.title == "Manufacturing") {
     const manufacturingBusinesses = businesses.filter((business) => {
       let manuBiz = false;
       if (business.companyIndustry === "Manufacturing") {
@@ -218,9 +217,9 @@ const manufacturing = () => {
     });
 
     const outEl = document.querySelector("#manufacturing");
-      outEl.innerHTML = "<h1>Manufacturing Businesses</h1>";
-      manufacturingBusinesses.forEach((business) => {
-        outEl.innerHTML += `
+    outEl.innerHTML = "<h1>Manufacturing Businesses</h1>";
+    manufacturingBusinesses.forEach((business) => {
+      outEl.innerHTML += `
           <h2>${business.companyName}</h2>
           <section>
             ${business.addressFullStreet}
@@ -229,14 +228,14 @@ const manufacturing = () => {
             ${business.addressCity}, ${business["addressStateCode"]} ${business["addressZipCode"]}
           </section>
         `;
-        outEl.innerHTML += "<hr/>";
-      });
-  };
+      outEl.innerHTML += "<hr/>";
+    });
+  }
 };
 
 // purchasing agents
 const agents = () => {
-  if (document.title == 'Purchasing Agents') {
+  if (document.title == "Purchasing Agents") {
     const outEl = document.querySelector("#agents");
     outEl.innerHTML += "<h1>Purchasing Agents</h1>";
 
@@ -244,21 +243,50 @@ const agents = () => {
         Using map(), you extract the purchasing agent object
         from each business and store it in a new array
     */
-    const agents = businesses.map(business => {
-        return business.purchasingAgent
+    const agents = businesses.map((business) => {
+      return business.purchasingAgent;
     });
 
     console.table(agents);
 
-    agents.forEach(agent => {
+    agents.forEach((agent) => {
       outEl.innerHTML += `<h2>${agent.nameFirst} ${agent.nameLast}</h2>`;
       outEl.innerHTML += "<hr/>";
     });
-  };
+  }
 };
 
+// practice: big spenders
+const spenders = () => {
+  if (document.title == "Big Spenders") {
+    const outEl = document.querySelector("#bigSpenders");
 
+    const bigSpenders = businesses.filter((business) => {
+      let largePurchase = false;
 
+      if (business.orders.find((val) => val > 9000)) {
+        largePurchase = true;
+      }
+
+      return largePurchase;
+    });
+
+    outEl.innerHTML = "<h1>Big Spenders</h1>";
+
+    bigSpenders.forEach((business) => {
+      outEl.innerHTML += `
+          <h2>${business.companyName}</h2>
+          <section>
+            ${business.addressFullStreet}
+          </section>
+          <section>
+            ${business.addressCity}, ${business["addressStateCode"]} ${business["addressZipCode"]}
+          </section>
+        `;
+      outEl.innerHTML += "<hr/>";
+    });
+  }
+};
 
 // end methods
 
@@ -269,6 +297,7 @@ const init = () => {
   ny();
   manufacturing();
   agents();
+  spenders();
 };
 
 init();
